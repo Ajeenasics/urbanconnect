@@ -68,7 +68,20 @@ function App() {
         {/* User Routes */}
         <Route path='/user-register' element={<User_Register />} />
         <Route path='/customer-home' element={[<CustomerHomenav/>,<Customerhome/>,<BestCandidate/>,<ClientTestimonials/>,<Footer/>]}/>
-{/* here2 */}
+
+         <Route path='/user-postjob' element={<PostJobList />} />
+         <Route path='/user-view-workers' element={[<CustomerHomenav/>,<BestCandidate />]} />
+         <Route path='/user-view-postjob' element={[<CustomerHomenav/>,<ViewPostJobsList />]} />
+         <Route path='/user-view-workerbytype' element={[<CustomerHomenav/>,<ViewWorkersByType />]} />
+        <Route path='/user-viewjobstatus/:jobid' element={[<CustomerHomenav/>,<Viewjobstatus />,<Footer/>]} />         <Route path='/user-view-acceptedworkstatus' element={[<CustomerHomenav/>,<ViewAcceptedPostJobs />,<Footer/>]} />
+        <Route path='/user-view-workstatus' element={<ViewWorkStatus />} />
+         <Route path='/user-edit-workstatus' element={<EditWorkStatus />} />
+         <Route path='/user-add-reviews' element={<AddReviews />} />
+       <Route path='/user-add-paymentdetails/:id' element={[<CustomerHomenav/>,<PaymentDetails />]} />
+        <Route path='/user-post-complaints' element={[<CustomerHomenav/>,<UserPostComplaints />,<Footer/>]} />
+     <Route path='/user-view-complaints' element={[<CustomerHomenav/>,<Userviewcomplaints />,<Footer/>]} />
+        <Route path='/User-viewallworker' element={[<CustomerHomenav/>,<WorkerList/>]}/>
+
 
 
         {/* Worker */}
@@ -80,8 +93,11 @@ function App() {
         <Route path='/worker-empjobreq' element={[<WorkerNav/>,<EmpViewJobReq/>]}/>
         <Route path='/worker-viewrecentjob' element={[<WorkerNav/>,<ViewRecentJobs/>]}/>
         {/* <Route path='/worker-edit-workstatus' element={<WorkerEditWorkStatus/>} /> */}
-        {/* here3 */}
 
+<Route path='/worker-jobstatus' element={[<WorkerNav/>,<WorkerviewWorkreqstatus/>]}/>
+        <Route path='/worker-paymentstatus' element={[<WorkerNav/>,<PaymentsList/>]}/>
+        <Route path='/worker-view-cust-complaintlist' element={[<WorkerNav/>,<ViewUserComplaints/>]}/>
+        <Route path='/worker-post-complaint' element={[<WorkerNav/>,<WorkerPostComplaint/>]}/>
 
 
 
@@ -90,7 +106,18 @@ function App() {
         <Route path='/admin-login' element={<Adminlogin />} />
         <Route path='/admin-dashboard' element={[<Adminloginnav/>,<Adminmain data="admin-dashboard"/>]}/>
         <Route path='/admin-workerreq' element={[<Adminloginnav/>,<Adminmain data="admin-workerreq"/>]}/>
-        {/* here1 */}
+      
+ <Route path='/admin-employerreq' element={[<Adminloginnav/>,<Adminmain data="admin-employerreq"/>]}/>
+        <Route path='/admin-viewallcust' element={[<Adminloginnav/>,<Adminmain data="admin-viewallcust"/>]}/>
+        <Route path='/admin-viewallemp' element={[<Adminloginnav/>,<Adminmain data="admin-viewallemp"/>]}/>
+        <Route path='/admin-viewallworker' element={[<Adminloginnav/>,<Adminmain data="admin-viewallworker"/>]}/>
+        <Route path='/admin-viewcust/:custid' element={[<Adminloginnav/>,<ViewSingleCust/>]}/>
+        <Route path='/admin-viewemp/:empid' element={[<Adminloginnav/>,<ViewSingleEmp/>]}/>
+        <Route path='/admin-viewworker/:workerid' element={[<Adminloginnav/>,<ViewSingleWork/>]}/>
+        <Route path='/admin-viewall-custcomplaints' element={[<Adminloginnav/>,<Adminmain data="admin-viewall-custcomplaints"/>]}/>
+        <Route path='/admin-viewall-workercomplaints' element={[<Adminloginnav/>,<Adminmain data="admin-viewall-workercomplaints"/>]}/>
+        <Route path='/admin-viewworkstatus' element={[<Adminloginnav/>,<Adminmain data="admin-viewworkstatus"/>]}/>
+
 
 
 
@@ -187,36 +214,6 @@ export default App;
 
 
 
-// here1
-//  <Route path='/admin-employerreq' element={[<Adminloginnav/>,<Adminmain data="admin-employerreq"/>]}/>
-//         <Route path='/admin-viewallcust' element={[<Adminloginnav/>,<Adminmain data="admin-viewallcust"/>]}/>
-//         <Route path='/admin-viewallemp' element={[<Adminloginnav/>,<Adminmain data="admin-viewallemp"/>]}/>
-//         <Route path='/admin-viewallworker' element={[<Adminloginnav/>,<Adminmain data="admin-viewallworker"/>]}/>
-//         <Route path='/admin-viewcust/:custid' element={[<Adminloginnav/>,<ViewSingleCust/>]}/>
-//         <Route path='/admin-viewemp/:empid' element={[<Adminloginnav/>,<ViewSingleEmp/>]}/>
-//         <Route path='/admin-viewworker/:workerid' element={[<Adminloginnav/>,<ViewSingleWork/>]}/>
-//         <Route path='/admin-viewall-custcomplaints' element={[<Adminloginnav/>,<Adminmain data="admin-viewall-custcomplaints"/>]}/>
-//         <Route path='/admin-viewall-workercomplaints' element={[<Adminloginnav/>,<Adminmain data="admin-viewall-workercomplaints"/>]}/>
-//         <Route path='/admin-viewworkstatus' element={[<Adminloginnav/>,<Adminmain data="admin-viewworkstatus"/>]}/>
 
 
-// here2
-//         <Route path='/user-postjob' element={<PostJobList />} />
-//         <Route path='/user-view-workers' element={[<CustomerHomenav/>,<BestCandidate />]} />
-//         <Route path='/user-view-postjob' element={[<CustomerHomenav/>,<ViewPostJobsList />]} />
-//         <Route path='/user-view-workerbytype' element={[<CustomerHomenav/>,<ViewWorkersByType />]} />
-//         <Route path='/user-viewjobstatus/:jobid' element={[<CustomerHomenav/>,<Viewjobstatus />,<Footer/>]} />
-//         <Route path='/user-view-acceptedworkstatus' element={[<CustomerHomenav/>,<ViewAcceptedPostJobs />,<Footer/>]} />
-//         <Route path='/user-view-workstatus' element={<ViewWorkStatus />} />
-//         <Route path='/user-edit-workstatus' element={<EditWorkStatus />} />
-//         <Route path='/user-add-reviews' element={<AddReviews />} />
-//         <Route path='/user-add-paymentdetails/:id' element={[<CustomerHomenav/>,<PaymentDetails />]} />
-//         <Route path='/user-post-complaints' element={[<CustomerHomenav/>,<UserPostComplaints />,<Footer/>]} />
-//         <Route path='/user-view-complaints' element={[<CustomerHomenav/>,<Userviewcomplaints />,<Footer/>]} />
-//         <Route path='/User-viewallworker' element={[<CustomerHomenav/>,<WorkerList/>]}/>
 
-// here3
-// <Route path='/worker-jobstatus' element={[<WorkerNav/>,<WorkerviewWorkreqstatus/>]}/>
-//         <Route path='/worker-paymentstatus' element={[<WorkerNav/>,<PaymentsList/>]}/>
-//         <Route path='/worker-view-cust-complaintlist' element={[<WorkerNav/>,<ViewUserComplaints/>]}/>
-//         <Route path='/worker-post-complaint' element={[<WorkerNav/>,<WorkerPostComplaint/>]}/>

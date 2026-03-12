@@ -1,9 +1,9 @@
-const workerschema=require("./workerSchema")
+const workerschema = require("./workerSchema")
 // const multer=require ("multer")
 const jwt = require("jsonwebtoken");
-const secret="secret_key"
-const customer=require("../customer/customerSchema")
-const employer=require("../Employer/employerSchema")
+const secret = process.env.JWT_SECRET || "secret_key"
+const customer = require("../customer/customerSchema")
+const employer = require("../Employer/employerSchema")
 
 
 
@@ -15,7 +15,7 @@ const employer=require("../Employer/employerSchema")
 //       cb(null, file.originalname);
 //     },
 //   });
-  
+
 //   const upload = multer({ storage: storage }).single("image");
 
 //   const registerworker = async(req, res) => {
@@ -162,194 +162,194 @@ const registerworker = async (req, res) => {
 };
 
 
-  const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
-  
-    console.log("t1",token);
-    console.log("secret",secret);
-    if (!token) {
-      return res.json({status:401,msg: 'Unauthorized' });
-    }
-    jwt.verify(token, secret, (err, decodedToken) => {
-      console.log(decodedToken);
-      if (err) {
-        return res.json({status:401, messagge: 'Unauthorized' ,err:err});
-      }
-  
-      req.user = decodedToken.userId;
-      next();
-      return res.json({ status:200,msg: 'ok' ,user:decodedToken.userId });
-    });
-    console.log(req.user);
-  };
-  //token decode api
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1];
 
-  const workerLogin = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const user = await workerschema.findOne({ email: email });
-  
-      if (user) {
-        if (user.adminapprove === false || user.isactive === false) {
-          return res.json({
-            status: 403,
-            msg: "User is not active. Please contact administrator.",
-          });
-        }
-       else if (user.password === password) {
-          const token = jwt.sign(
-            { email: user.email, password: user.password },
-            "secret_key",
-            { expiresIn: 86400 }
-          );
-          return res.json({
-            status:200,
-            msg:"Login Successfully", token, id: user._id 
-          })
-        }
-        else {
-            return res.json({status:401, message: "Password error" });
-        }
-      } else {
-        return res.json({status:404, message: "User does not exist" });
-      }
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+  console.log("t1", token);
+  console.log("secret", secret);
+  if (!token) {
+    return res.json({ status: 401, msg: 'Unauthorized' });
+  }
+  jwt.verify(token, secret, (err, decodedToken) => {
+    console.log(decodedToken);
+    if (err) {
+      return res.json({ status: 401, messagge: 'Unauthorized', err: err });
     }
-  };
-  
 
-  const workerresetpswd=((req,res)=>{
-    workerschema.findByIdAndUpdate({_id:req.params.id},{ password: req.body.password }
-      )
-      .exec()
-      .then((data) => {
-        if (data != null)
-          res.json({
-            status: 200,
-            msg: "Updated successfully",
-          });
-        else
-          res.json({
-            status: 500,
-            msg: "User Not Found",
-          });
-      })
-      .catch((err) => {
-        console.log(err);
+    req.user = decodedToken.userId;
+    next();
+    return res.json({ status: 200, msg: 'ok', user: decodedToken.userId });
+  });
+  console.log(req.user);
+};
+//token decode api
+
+const workerLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await workerschema.findOne({ email: email });
+
+    if (user) {
+      if (user.adminapprove === false || user.isactive === false) {
+        return res.json({
+          status: 403,
+          msg: "User is not active. Please contact administrator.",
+        });
+      }
+      else if (user.password === password) {
+        const token = jwt.sign(
+          { email: user.email, password: user.password },
+          process.env.JWT_SECRET || "secret_key",
+          { expiresIn: 86400 }
+        );
+        return res.json({
+          status: 200,
+          msg: "Login Successfully", token, id: user._id
+        })
+      }
+      else {
+        return res.json({ status: 401, message: "Password error" });
+      }
+    } else {
+      return res.json({ status: 404, message: "User does not exist" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+const workerresetpswd = ((req, res) => {
+  workerschema.findByIdAndUpdate({ _id: req.params.id }, { password: req.body.password }
+  )
+    .exec()
+    .then((data) => {
+      if (data != null)
+        res.json({
+          status: 200,
+          msg: "Updated successfully",
+        });
+      else
         res.json({
           status: 500,
-          msg: "Data not Updated",
-          Error: err,
+          msg: "User Not Found",
         });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        status: 500,
+        msg: "Data not Updated",
+        Error: err,
       });
-  
+    });
+
 })
 
 const viewallworkersByLocation = (req, res) => {
   const { location } = req.body;
 
-  workerschema.find({ 
-    adminapprove: true, 
-    isactive: true, 
+  workerschema.find({
+    adminapprove: true,
+    isactive: true,
     district: district // Filter by location
   })
-  .exec()
-  .then((data) => {
-    if (data.length > 0) {
+    .exec()
+    .then((data) => {
+      if (data.length > 0) {
+        res.json({
+          status: 200,
+          data: data,
+          msg: "Data successfully fetched"
+        });
+      } else {
+        res.json({
+          status: 404,
+          msg: "No workers found in your area"
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
       res.json({
-        status: 200,
-        data: data,
-        msg: "Data successfully fetched"
+        status: 500,
+        msg: err
       });
-    } else {
-      res.json({
-        status: 404,
-        msg: "No workers found in your area"
-      });
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-    res.json({
-      status: 500,
-      msg: err
     });
-  });
 };
 
 
-const updateworkerprofile=(req,res)=>{
-  workerschema.findByIdAndUpdate({_id:req.params.id},{
+const updateworkerprofile = (req, res) => {
+  workerschema.findByIdAndUpdate({ _id: req.params.id }, {
     name: req.body.name,
-    workertype:req.body.workertype,
-    address:req.body.address,
-    location:req.body.location,
-    city:req.body.city,
+    workertype: req.body.workertype,
+    address: req.body.address,
+    location: req.body.location,
+    city: req.body.city,
     // state:req.body.state,
     contact: req.body.contact,
     email: req.body.email,
     password: req.body.password,
     image: req.file,
   })
-  .exec()
-  .then((response)=>{
-    res.json({
-      status:200,
-      msg:"updated successfully",
-      data:response
+    .exec()
+    .then((response) => {
+      res.json({
+        status: 200,
+        msg: "updated successfully",
+        data: response
+      })
     })
-  })
-  .catch((err)=>{
-    res.json({
-      status:500,
-      msg:"error",err
+    .catch((err) => {
+      res.json({
+        status: 500,
+        msg: "error", err
+      })
+      console.log(err);
     })
-    console.log(err);
-  })
 
 }
 
-const viewallworker=((req,res)=>{
-  workerschema.find({adminapprove:true,isactive:true})
-  .exec()
-  .then((data)=>{
-      if(data!==null){
-          res.json({
-              status:200,
-              data:data,
-              msg:"Data successfully get"
-          })
+const viewallworker = ((req, res) => {
+  workerschema.find({ adminapprove: true, isactive: true })
+    .exec()
+    .then((data) => {
+      if (data !== null) {
+        res.json({
+          status: 200,
+          data: data,
+          msg: "Data successfully get"
+        })
       }
-  })
-  .catch((err)=>{
+    })
+    .catch((err) => {
       console.log(err);
       res.json({
-          status: 500,
-          msg: err
+        status: 500,
+        msg: err
       })
-  })
+    })
 })
 
-const viewworkerpendingreq=((req,res)=>{
-  workerschema.find({adminapprove:false})
-  .exec()
-  .then((data)=>{
-      if(data!==null){
-          res.json({
-              status:200,
-              data:data,
-              msg:"Data successfully get"
-          })
+const viewworkerpendingreq = ((req, res) => {
+  workerschema.find({ adminapprove: false })
+    .exec()
+    .then((data) => {
+      if (data !== null) {
+        res.json({
+          status: 200,
+          data: data,
+          msg: "Data successfully get"
+        })
       }
-  })
-  .catch((err)=>{
+    })
+    .catch((err) => {
       console.log(err);
       res.json({
-          status: 500,
-          msg: err
+        status: 500,
+        msg: err
       })
-  })
+    })
 })
 
 
@@ -372,176 +372,176 @@ const viewworkerbyid = (req, res) => {
     });
 };
 
-const deleteworkerById =async (req, res) => {
+const deleteworkerById = async (req, res) => {
   await workerschema.findByIdAndDelete({ _id: req.params.id }).exec()
-      .then((result) => {
-          res.json({
-              status: 200,
-              data: result,
-              msg: 'data deleted'
-          })
-      })
-      .catch(err => {
-          res.json({
-              status: 500,
-              msg: 'Error in API',
-              err: err
-          })
-      })
-
-    }
-
-    const viewworkerreq=((req,res)=>{
-      workerschema.find({adminapprove:false})
-      .exec()
-      .then((result)=>{
-        res.json({
-          status:200,
-          data:result
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-        res.json({
-          status:404,
-          err:err
-        })
+    .then((result) => {
+      res.json({
+        status: 200,
+        data: result,
+        msg: 'data deleted'
       })
     })
-    const approveworkerid = async (req, res) => {
-      await workerschema.findByIdAndUpdate({ _id: req.params.id }, { adminapprove: true }).exec()
-          .then((result) => {
-              res.json({
-                  status: 200,
-                  data: result,
-                  msg: 'Accepted'
-              })
-          })
-          .catch(err => {
-              res.json({
-                  status: 500,
-                  msg: 'Error in API',
-                  err: err
-              })
-          })
-    
-    }
-    const rejectworkerbyid = async (req, res) => {
-      await workerschema.findByIdAndDelete({ _id: req.params.id }).exec()
-          .then((result) => {
-              res.json({
-                  status: 200,
-                  data: result,
-                  msg: 'Accepted'
-              })
-          })
-          .catch(err => {
-              res.json({
-                  status: 500,
-                  msg: 'Error in API',
-                  err: err
-              })
-          })
-    
-    }
+    .catch(err => {
+      res.json({
+        status: 500,
+        msg: 'Error in API',
+        err: err
+      })
+    })
 
-    // False IsActive by Admin 
+}
 
-    const removebyadminbyworkerid = async (req, res) => {
-      await workerschema.findByIdAndUpdate({ _id: req.params.id }, { isactive: false }).exec()
-          .then((result) => {
-              res.json({
-                  status: 200,
-                  data: result,
-                  msg: 'Accepted'
-              })
-          })
-          .catch(err => {
-              res.json({
-                  status: 500,
-                  msg: 'Error in API',
-                  err: err
-              })
-          })
-    
-    }
+const viewworkerreq = ((req, res) => {
+  workerschema.find({ adminapprove: false })
+    .exec()
+    .then((result) => {
+      res.json({
+        status: 200,
+        data: result
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        status: 404,
+        err: err
+      })
+    })
+})
+const approveworkerid = async (req, res) => {
+  await workerschema.findByIdAndUpdate({ _id: req.params.id }, { adminapprove: true }).exec()
+    .then((result) => {
+      res.json({
+        status: 200,
+        data: result,
+        msg: 'Accepted'
+      })
+    })
+    .catch(err => {
+      res.json({
+        status: 500,
+        msg: 'Error in API',
+        err: err
+      })
+    })
 
-    // add Ratings
+}
+const rejectworkerbyid = async (req, res) => {
+  await workerschema.findByIdAndDelete({ _id: req.params.id }).exec()
+    .then((result) => {
+      res.json({
+        status: 200,
+        data: result,
+        msg: 'Accepted'
+      })
+    })
+    .catch(err => {
+      res.json({
+        status: 500,
+        msg: 'Error in API',
+        err: err
+      })
+    })
 
-    const addRating = (req, res) => {
-    let newRate = parseInt(req.body.rating);
-    let rating = 0;
-    workerschema.findById({ _id: req.params.id })
-      .exec()
-      .then((data) => {
-        rating = data.rating;
-        if (data.rating != 0) rating = (rating + newRate) / 2;
-        else rating = newRate;
-        workerschema.findByIdAndUpdate(
-          { 
-            _id: req.params.id 
-          },
-          {
-            rating: rating,
-          },
-          { 
-            new: true 
-          }
-        )
-          .exec()
-          .then((data) => {
-            res.json({
-              status: 200,
-              msg: "Data obtained successfully",
-              data: data,
-            });
-          })
-          .catch((err) => {
-            res.json({
-              status: 500,
-              msg: "Data not Inserted",
-              Error: err,
-            });
+}
+
+// False IsActive by Admin 
+
+const removebyadminbyworkerid = async (req, res) => {
+  await workerschema.findByIdAndUpdate({ _id: req.params.id }, { isactive: false }).exec()
+    .then((result) => {
+      res.json({
+        status: 200,
+        data: result,
+        msg: 'Accepted'
+      })
+    })
+    .catch(err => {
+      res.json({
+        status: 500,
+        msg: 'Error in API',
+        err: err
+      })
+    })
+
+}
+
+// add Ratings
+
+const addRating = (req, res) => {
+  let newRate = parseInt(req.body.rating);
+  let rating = 0;
+  workerschema.findById({ _id: req.params.id })
+    .exec()
+    .then((data) => {
+      rating = data.rating;
+      if (data.rating != 0) rating = (rating + newRate) / 2;
+      else rating = newRate;
+      workerschema.findByIdAndUpdate(
+        {
+          _id: req.params.id
+        },
+        {
+          rating: rating,
+        },
+        {
+          new: true
+        }
+      )
+        .exec()
+        .then((data) => {
+          res.json({
+            status: 200,
+            msg: "Data obtained successfully",
+            data: data,
           });
-      });
-  };
+        })
+        .catch((err) => {
+          res.json({
+            status: 500,
+            msg: "Data not Inserted",
+            Error: err,
+          });
+        });
+    });
+};
 
 const topratedWorkers = (req, res) => {
-workerschema.find({isactive:true,adminapprove:true})
-  .sort({ rating: -1 }) 
-  .limit(4) 
-  .exec()
-   .then(data=>{
+  workerschema.find({ isactive: true, adminapprove: true })
+    .sort({ rating: -1 })
+    .limit(4)
+    .exec()
+    .then(data => {
       res.json({
         status: 200,
         msg: "Data obtained",
         data: data
       });
-    }).catch(err=>{
-      
-        res.json({
-          status: 500,
-          msg: "Data not Inserted",
-          Error: err,
-        });
-      
+    }).catch(err => {
+
+      res.json({
+        status: 500,
+        msg: "Data not Inserted",
+        Error: err,
+      });
+
     })
-  
+
 }
-module.exports={
-    registerworker,upload,
-    workerLogin,verifyToken,
-    workerresetpswd,
-    updateworkerprofile,
-    viewallworker,
-    viewworkerbyid,
-    deleteworkerById,
-    viewworkerreq,
-    approveworkerid,
-    rejectworkerbyid,
-    viewworkerpendingreq,
-    removebyadminbyworkerid,
-    addRating,
-    topratedWorkers,
-    viewallworkersByLocation
+module.exports = {
+  registerworker, upload,
+  workerLogin, verifyToken,
+  workerresetpswd,
+  updateworkerprofile,
+  viewallworker,
+  viewworkerbyid,
+  deleteworkerById,
+  viewworkerreq,
+  approveworkerid,
+  rejectworkerbyid,
+  viewworkerpendingreq,
+  removebyadminbyworkerid,
+  addRating,
+  topratedWorkers,
+  viewallworkersByLocation
 }

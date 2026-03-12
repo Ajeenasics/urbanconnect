@@ -14,7 +14,6 @@ const customercomplaints=require("./models/customer/Complaints/AddComplaintContr
 const customerreviews=require("./models/customer/Reviews/ReviewsController")
 const serviceRequestController=require("./models/customer/CustomerServiese/CustomerService")
 // Customer
-
 router.post("/registercust",customer.upload,customer.registercust)
 router.post("/logincust",customer.custLogin)
 router.post("/verifytoken",customer.verifyToken)
@@ -26,10 +25,7 @@ router.post("/viewcustbyid/:id",customer.viewcustbyid)
 router.post("/deletecust/:id",customer.deletecustById)
 router.post("/forgotPWDsentMail",customer.forgotPWDsentMail)
 router.post("/removebyadminbycustid/:id",customer.removebyadminbycustid)
-
-
 //Worker
-
 router.post("/registerworker",Worker.registerworker)
 router.post("/loginworker",Worker.workerLogin)
 router.post("/workerresetpswd/:id",Worker.workerresetpswd)
@@ -42,20 +38,10 @@ router.post("/viewworkerreq",Worker.viewworkerreq)
 router.post("/approveworkerid/:id",Worker.approveworkerid)
 router.post("/rejectworkerbyid/:id",Worker.rejectworkerbyid)
 router.post("/removebyadminbyworkerid/:id",Worker.removebyadminbyworkerid)
-
 // worker Ratings 
-
 router.post("/addRating/:id",Worker.addRating)
 router.post("/topratedWorkers",Worker.topratedWorkers)
-
-
-
-
-
-
-
 //Employer
-
 router.post("/employerreg",employer.upload,employer.registeremp)
 router.post("/emplogin",employer.empLogin)
 router.post("/employerresetpswd/:id",employer.employerresetpswd)
@@ -68,26 +54,17 @@ router.post("/viewemployerreq",employer.viewemployerreq)
 router.post("/approveempbyid/:id",employer.approveempbyid)
 router.post("/rejectempbyid/:id",employer.rejectempbyid)
 router.post("/removebyadminbyempid/:id",employer.removebyadminbyempid)
-
-
 //EmpPostJob
 router.post("/registerjob",emppostjob.registerjob)
 router.post("/viewEmpPostJobByEmpid/:id",emppostjob.viewEmpPostJobByEmpid)
 router.post("/viewEmpPostJobById/:id",emppostjob.viewEmpPostJobById)
 router.post("/viewAllEmpPostJob",emppostjob.viewAllEmpPostJob)
 router.post("/acceptJobReqsById/:id",emppostjob.acceptJobReqsById)
-
-
-
 // EmpJob Req
-
 router.post("/empjobreq/:id",empjobreq.empjobrequest)
 router.post("/viewReqsbyempid/:id",empjobreq.viewReqsbyempid)
 router.post("/viewEmpJobReqsbyJobid/:id",empjobreq.viewEmpJobReqsbyJobid)
 router.post("/removeEmpJobReqById/:id",empjobreq.removeEmpJobReqById)
-
-
-
 
 //Job Requests
 
@@ -100,8 +77,6 @@ router.post("/viewjobreqsbyuserid/:id",jobreq.viewjobreqsbyuserid)
 router.post("/viewalljobpost",jobreq.viewalljobpost)
 router.post("/acceptJobReqsById/:id",jobreq.acceptJobReqsById)
 
-
-
 //worker accept job requests
 router.post("/workeracceptjobs/:id",workeracceptreq.workertakejobreq)
 router.post("/viewReqsbyUserid/:id",workeracceptreq.viewReqsbyUserid)
@@ -113,9 +88,6 @@ router.post("/viewApprovedReqsbyWorkerid/:id",workeracceptreq.viewApprovedReqsby
 router.post("/viewApprovedReqsbycustomerId/:id",workeracceptreq.viewApprovedReqsbycustomerId)
 router.post("/updateapprovalstatustopaid/:id",workeracceptreq.updateapprovalstatustopaid)
 router.post("/viewAprovdReqsbycustIdRegComplaint/:id",workeracceptreq.viewAprovdReqsbycustIdRegComplaint)
-
-
-
 // work status 
 router.post("/addworkstatus/:id",workstatus.addworkstatus)
 router.post("/OTPVerification",workstatus.OTPVerification)
@@ -124,7 +96,6 @@ router.post("/viewWorksamountById/:id",workstatus.viewWorksamountById)
 router.post("/viewCompletedWorksByWorkerId/:id",workstatus.viewCompletedWorksByWorkerId)
 router.post("/viewCountCompletedWorksByWorkerId/:id",workstatus.viewCountCompletedWorksByWorkerId)
 router.post("/viewAllWorkStatus",workstatus.viewAllWorkStatus)
-
 
 //interviews
 
@@ -137,11 +108,6 @@ router.post("/updateinterviewStatusSelected/:id",interviews.updateinterviewStatu
 router.post("/updateinterviewStatusRejected/:id",interviews.updateinterviewStatusRejected)
 router.post("/viewSelectedCandByEmpId/:id",interviews.viewSelectedCandByEmpId)
 router.post("/viewRejectedCandByEmpId/:id",interviews.viewRejectedCandByEmpId)
-
-
-
-
-
 //customer Complaints
 
 router.post("/customerAddComplaints/:id",customercomplaints.customerAddComplaints)
@@ -157,11 +123,6 @@ router.post("/viewallcustomercomplaintsinadmin",customercomplaints.viewallcustom
 router.post("/addReviews",customerreviews.addReviews)
 router.post("/viewallreviews",customerreviews.viewallreviews)
 router.post("/viewsortreviews",customerreviews.viewsortreviews)
-
-
-
-
-
 // service
 router.post("/apply_serviece", serviceRequestController.createServiceRequest);
 router.get("/view_servieces", serviceRequestController.getAllServiceRequests);
@@ -173,4 +134,5 @@ router.post("/getPendingRequests_ByWorkerid/:workerid", serviceRequestController
 router.post("/toAcceptServiceRequest/:id", serviceRequestController.toAcceptServiceRequest);
 router.post("/toRejectServiceRequest/:id", serviceRequestController.toRejectServiceRequest);
 router.post("/toCompletedServiceRequest/:id", serviceRequestController.toCompletedServiceRequest);
+
 module.exports=router

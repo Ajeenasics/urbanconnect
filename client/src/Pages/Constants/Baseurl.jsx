@@ -1,17 +1,11 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // For production (use only one baseURL at a time)
-  // baseURL: 'https://hybrid.srishticampus.in/quick_click_api/',
-  
-  // For local development (comment out the above and uncomment below)
-  baseURL: 'http://localhost:4053/quick_click_api/',
-  
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  // Recommended to add timeout to prevent hanging
-  timeout: 5000, // 5 seconds
+  timeout: 5000,
 });
 
 // // Add request interceptor for logging/debugging
@@ -34,8 +28,6 @@ const axiosInstance = axios.create({
 // });
 
 // Export the image base URL separately
-// export const imageBaseUrl = 'https://hybrid.srishticampus.in/'; 
-// or for local: 
-  export const imageBaseUrl ='http://localhost:4053/'
+export const imageBaseUrl = import.meta.env.VITE_IMAGE_BASE_URL;
 
 export default axiosInstance;
