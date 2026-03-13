@@ -65,7 +65,54 @@ function WorkerNav() {
                 Home
               </Link>
             </li>
-          {/* here1 */}
+        <li className="nav-item m-1 me-3">
+              <Link className="nav-link text-light-custom" to="/worker-custreq">
+               Service Request
+             </Link>
+          </li>
+          <li className="nav-item m-1 me-3  ">
+             <Link
+                className="nav-link text-light-custom"
+                 to="/worker-reqacceptstatus"
+               >
+                 Accepted status
+               </Link>
+             </li>
+             <li className="nav-item m-1 me-3  ">
+               <Link
+                 className="nav-link text-light-custom"
+                 to="/worker-paymentstatus"
+               >
+                 Payment status
+               </Link>
+             </li>
+           
+             <li className="nav-item m-1 me-3">
+              <Link
+                className="nav-link text-light-custom"
+                to="/worker-post-complaint"
+              >
+                Complaint
+              </Link>
+            </li>
+            <li className="nav-item m-1 me-3">
+              <Dropdown>
+              <Dropdown.Toggle
+                  variant="link"
+                  className="nav-link text-light-custom"
+                  id="dropdown-requests"
+                >
+                  View Complaints
+                 </Dropdown.Toggle>
+                 <Dropdown.Menu>
+                   <Dropdown.Item as={Link} to="/worker-view-cust-complaintlist">
+                     Customer Complaints
+                   </Dropdown.Item>
+                   {/* <Dropdown.Item as={Link} to="/worker-empjobreq">Employer Complaints</Dropdown.Item> */}
+                 </Dropdown.Menu>
+               </Dropdown>
+             </li>
+
             <li className="nav-item dropdown m-1">
               <Dropdown align="end">
                 <Dropdown.Toggle variant="link" id="dropdown-basic">
@@ -134,51 +181,5 @@ export default WorkerNav;
 
 
 
-// here1
-  // <li className="nav-item m-1 me-3">
-  //             <Link className="nav-link text-light-custom" to="/worker-custreq">
-  //               Service Request
-  //             </Link>
-  //           </li>
-  //           <li className="nav-item m-1 me-3  ">
-  //             <Link
-  //               className="nav-link text-light-custom"
-  //               to="/worker-reqacceptstatus"
-  //             >
-  //               Accepted status
-  //             </Link>
-  //           </li>
-  //           <li className="nav-item m-1 me-3  ">
-  //             <Link
-  //               className="nav-link text-light-custom"
-  //               to="/worker-paymentstatus"
-  //             >
-  //               Payment status
-  //             </Link>
-  //           </li>
-           
-  //           <li className="nav-item m-1 me-3">
-  //             <Link
-  //               className="nav-link text-light-custom"
-  //               to="/worker-post-complaint"
-  //             >
-  //               Complaint
-  //             </Link>
-  //           </li>
-  //           <li className="nav-item m-1 me-3">
-  //             <Dropdown>
-  //               <Dropdown.Toggle
-  //                 variant="link"
-  //                 className="nav-link text-light-custom"
-  //                 id="dropdown-requests"
-  //               >
-  //                 View Complaints
-  //               </Dropdown.Toggle>
-  //               <Dropdown.Menu>
-  //                 <Dropdown.Item as={Link} to="/worker-view-cust-complaintlist">
-  //                   Customer Complaints
-  //                 </Dropdown.Item>
-  //                 {/* <Dropdown.Item as={Link} to="/worker-empjobreq">Employer Complaints</Dropdown.Item> */}
-  //               </Dropdown.Menu>
-  //             </Dropdown>
-  //           </li>
+
+  

@@ -80,7 +80,56 @@ function CustomerHomenav() {
             </li>
 
            
-             {/* here1 */}
+           <li className="nav-item  me-3 pe-3 m-1">
+              <Link
+                className="nav-link text-light-custom"
+                to="/User-viewallworker"
+              >
+                {" "}
+                workers
+              </Link>
+            </li>
+
+            <li className="nav-item me-3 pe-3 m-1">
+              <Link
+                className="nav-link text-light-custom"
+                onClick={() => handleShow("PostJob")}
+              >
+                Post Work
+              </Link>
+            </li>
+            <li className="nav-item me-3 pe-3 m-1">
+              <Link
+                className="nav-link text-light-custom"
+                to="/user-view-postjob"
+              >
+                View Works
+              </Link>
+            </li>
+            <li className="nav-item me-3 pe-3 m-1">
+              <Link
+                className="nav-link text-light-custom"
+                to="/user-view-acceptedworkstatus"
+              >
+                Accepted Status
+              </Link>
+            </li>
+            <li className="nav-item me-3 pe-3 m-1">
+              <Link
+                className="nav-link text-light-custom"
+                to="/user-post-complaints"
+              >
+                Complaint
+              </Link>
+            </li>
+            <li className="nav-item me-3 pe-3 m-1">
+              <Link
+                className="nav-link text-light-custom"
+                to="/user-view-complaints"
+              >
+                View Complaint
+              </Link>
+            </li> 
 
             <li className="nav-item dropdown m-1">
               <Dropdown align="end">
@@ -146,53 +195,3 @@ export default CustomerHomenav;
 
 
 
-{/* <li className="nav-item  me-3 pe-3 m-1">
-              <Link
-                className="nav-link text-light-custom"
-                to="/User-viewallworker"
-              >
-                {" "}
-                workers
-              </Link>
-            </li>
-
-            <li className="nav-item me-3 pe-3 m-1">
-              <Link
-                className="nav-link text-light-custom"
-                onClick={() => handleShow("PostJob")}
-              >
-                Post Work
-              </Link>
-            </li>
-            <li className="nav-item me-3 pe-3 m-1">
-              <Link
-                className="nav-link text-light-custom"
-                to="/user-view-postjob"
-              >
-                View Works
-              </Link>
-            </li>
-            <li className="nav-item me-3 pe-3 m-1">
-              <Link
-                className="nav-link text-light-custom"
-                to="/user-view-acceptedworkstatus"
-              >
-                Accepted Status
-              </Link>
-            </li>
-            <li className="nav-item me-3 pe-3 m-1">
-              <Link
-                className="nav-link text-light-custom"
-                to="/user-post-complaints"
-              >
-                Complaint
-              </Link>
-            </li>
-            <li className="nav-item me-3 pe-3 m-1">
-              <Link
-                className="nav-link text-light-custom"
-                to="/user-view-complaints"
-              >
-                View Complaint
-              </Link>
-            </li> */}
